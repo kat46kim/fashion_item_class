@@ -19,6 +19,19 @@ if img_source == "画像をアップロード":
 elif img_source == "カメラで撮影":
     img_file = st.camera_input("カメラで撮影")
 
+n_top = st.sidebar.number_input(label="上位何件まで表示させますか",
+                        min_value= 0,
+                        max_value= 10,
+                        value= 3,)
+
+n_top = st.sidebar.slider(label="上位何件まで表示させますか",
+                        min_value= 0,
+                        max_value= 10,
+                        value= 3,)
+
+st.subheader("10種類のファッションアイテムを判定します")
+st.write("Tシャツ/トップ, ズボン, プルオーバー, ドレス, コート, サンダル, ワイシャツ, スニーカー, バッグ, アンクルブーツ")
+
 if img_file is not None:
     with st.spinner("推定中..."):
         img = Image.open(img_file)
@@ -26,32 +39,36 @@ if img_file is not None:
         st.write("")
         # spinner表示のテスト
         import time
-        time.sleep(3) 
+        time.sleep(1) 
         # 予測
-        results = predict(img)
-        # net, y, y_prob, results = predict(img)
-        # st.write("net =", net)
+        # results = predict(img)        
+        net, y, y_prob, results = predict(img)
+        m_show = st.sidebar.checkbox(label='モデルの表示')
+        g_show = st.sidebar.checkbox(label='グラフの表示')
+        if m_show:
+            st.write("net =", net)
         # st.write("y =", y)
         # st.write("y_prob = ", y_prob)
         # st.write("results =", results)
         # 結果の表示
         st.subheader("判定結果")
-        n_top = 3  # 確率が高い順に3位まで返す
+        # n_top = 3  # 確率が高い順に3位まで返す
         for result in results[:n_top]:
             # st.write("result =", result)
             st.write(str(round(result[2]*100, 2)) + "%の確率で" + result[0] + "です。")
 
         # 円グラフの表示
-        pie_labels = [result[1] for result in results[:n_top]]
-        pie_labels.append("others")  # その他
-        pie_probs = [result[2] for result in results[:n_top]]
-        pie_probs.append(sum([result[2] for result in results[n_top:]]))  # その他
-        fig, ax = plt.subplots()
-        wedgeprops = {"width":0.3, "edgecolor":"white"}
-        textprops = {"fontsize":6}
-        ax.pie(pie_probs, labels=pie_labels, counterclock=False, startangle=90,
-               textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
-        st.pyplot(fig)
+        if g_show:    
+            pie_labels = [result[1] for result in results[:n_top]]
+            pie_labels.append("others")  # その他
+            pie_probs = [result[2] for result in results[:n_top]]
+            pie_probs.append(sum([result[2] for result in results[n_top:]]))  # その他
+            fig, ax = plt.subplots()
+            wedgeprops = {"width":0.3, "edgecolor":"white"}
+            textprops = {"fontsize":6}
+            ax.pie(pie_probs, labels=pie_labels, counterclock=False, startangle=90,
+                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
+            st.pyplot(fig)
 
 st.sidebar.write("")
 st.sidebar.write("")
