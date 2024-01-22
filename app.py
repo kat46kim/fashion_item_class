@@ -28,6 +28,8 @@ n_top = st.sidebar.slider(label="上位何件まで表示させますか",
                         min_value= 0,
                         max_value= 10,
                         value= 3,)
+m_show = st.sidebar.checkbox(label='モデルの表示')
+g_show = st.sidebar.checkbox(label='グラフの表示')
 
 st.subheader("10種類のファッションアイテムを判定します")
 st.write("Tシャツ/トップ, ズボン, プルオーバー, ドレス, コート, サンダル, ワイシャツ, スニーカー, バッグ, アンクルブーツ")
@@ -43,8 +45,6 @@ if img_file is not None:
         # 予測
         # results = predict(img)        
         net, y, y_prob, results = predict(img)
-        m_show = st.sidebar.checkbox(label='モデルの表示')
-        g_show = st.sidebar.checkbox(label='グラフの表示')
         if m_show:
             st.write("net =", net)
         # st.write("y =", y)

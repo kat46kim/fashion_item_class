@@ -66,5 +66,5 @@ def predict(img):
     y_prob = torch.nn.functional.softmax(torch.squeeze(y), dim=0)  # 確率で表す[0.08 0.1 0.06 0.05 0.04 0.8 0.005 0.0003 ]
     print(y_prob)
     sorted_prob, sorted_indices = torch.sort(y_prob, descending=True)  # 降順にソート
-    # return net, y, y_prob, [(classes_ja[idx], classes_en[idx], prob.item()) for idx, prob in zip(sorted_indices, sorted_prob)]
-    return [(classes_ja[idx], classes_en[idx], prob.item()) for idx, prob in zip(sorted_indices, sorted_prob)]
+    return net, y, y_prob, [(classes_ja[idx], classes_en[idx], prob.item()) for idx, prob in zip(sorted_indices, sorted_prob)]
+    # return [(classes_ja[idx], classes_en[idx], prob.item()) for idx, prob in zip(sorted_indices, sorted_prob)]
