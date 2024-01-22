@@ -19,10 +19,10 @@ if img_source == "画像をアップロード":
 elif img_source == "カメラで撮影":
     img_file = st.camera_input("カメラで撮影")
 
-n_top = st.sidebar.number_input(label="上位何件まで表示させますか",
-                        min_value= 1,
-                        max_value= 10,
-                        value= 3,)
+# n_top = st.sidebar.number_input(label="上位何件まで表示させますか",
+#                         min_value= 1,
+#                         max_value= 10,
+#                         value= 3,)
 
 n_top = st.sidebar.slider(label="上位何件まで表示させますか",
                         min_value= 1,
